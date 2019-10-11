@@ -1,0 +1,84 @@
+config:
+  train_name: brats_ensemble_k4
+  train_dir: ../out/brats
+  split: ../config/splits/split_brats18_k10_90-25-160.json
+  epochs: 100
+  model:
+    unet:
+      depth: 4
+      dropout: 0.05
+      in_channels: 4
+      nb_classes: 2
+      start_filters: 32
+  optimizer:
+    adam:
+      lr: 0.0001
+  seed: 24
+  valid_every_nth: 1
+  log_every_nth: 10
+  others:
+    split_k: 4
+  train_data:
+    batch_size: 32
+    dataset: ../in/datasets/brats18_train_reduced_norm.h5
+    extractor:
+    - data:
+        categories:
+        - images
+        - labels
+    - names
+    indexing:
+      slice: {}
+    num_workers: 1
+    selection_extractor:
+      data:
+        categories:
+        - images
+    selection_strategy:
+      none-black: {}
+    shuffle: true
+    transform:
+    - permute:
+        permutation:
+        - 2
+        - 0
+        - 1
+    - squeeze
+  valid_data:
+    batch_size: 32
+    dataset: ../in/datasets/brats18_train_reduced_norm.h5
+    direct_extractor:
+    - names
+    - data:
+        categories:
+        - labels
+    - files
+    - properties
+    - subject
+    direct_transform:
+    - squeeze:
+        entries:
+        - labels
+    extractor:
+    - indexing:
+        do_pickle: true
+    - shape
+    - data
+    indexing:
+      slice: {}
+    num_workers: 0
+    shuffle: false
+    transform:
+    - permute:
+        entries:
+        - images
+        permutation:
+        - 2
+        - 0
+        - 1
+    - squeeze:
+        entries:
+        - images
+meta:
+  type: train-config
+  version: 0

@@ -1,0 +1,33 @@
+config:
+  test_name: isic_test_baseline_cv1
+  test_dir: ../out/predictions/isic/cv
+  model_dir: #todo: add (e.g., ../out/isic/<timestamp>_isic_baseline_cv1/model_<timestamp>)
+  split: ../config/splits/split_isic_cv_k5_1600-400-400.json
+  seed: 20
+  test_at: best
+  others:
+    split_k: 1
+  test_data:
+    batch_size: 32
+    dataset: ../in/datasets/isic_small/ISIC-2017_Training
+    num_workers: 1
+    shuffle: false
+    transform:
+    - rescale:
+        entries:
+        - images
+        - labels
+        lower: 0
+        upper: 1
+    - permute:
+        entries:
+        - images
+        - labels
+        permutation:
+        - 2
+        - 0
+        - 1
+    - squeeze
+meta:
+  type: test-config
+  version: 0

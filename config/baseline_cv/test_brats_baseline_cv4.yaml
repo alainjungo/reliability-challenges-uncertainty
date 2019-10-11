@@ -1,0 +1,47 @@
+config:
+  test_name: brats_test_baseline_cv4
+  test_dir: ../out/predictions/brats/cv
+  model_dir: #todo: add (e.g., ../out/brats/<timestamp>_brats_baseline_cv4/model_<timestamp>)
+  split: ../config/splits/split_brats18_cv_k5_100-25-25.json
+  seed: 20
+  test_at: best
+  others:
+    split_k: 4
+  test_data:
+    batch_size: 32
+    dataset: ../in/datasets/brats18_train_reduced_norm.h5
+    direct_extractor:
+    - names
+    - data:
+        categories:
+        - labels
+    - files
+    - properties
+    - subject
+    direct_transform:
+    - squeeze:
+        entries:
+        - labels
+    extractor:
+    - indexing:
+        do_pickle: true
+    - shape
+    - data
+    indexing:
+      slice: {}
+    num_workers: 0
+    shuffle: false
+    transform:
+    - permute:
+        entries:
+        - images
+        permutation:
+        - 2
+        - 0
+        - 1
+    - squeeze:
+        entries:
+        - images
+meta:
+  type: test-config
+  version: 0

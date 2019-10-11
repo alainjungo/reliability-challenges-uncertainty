@@ -1,0 +1,62 @@
+config:
+  train_name: isic_baseline_cv3
+  train_dir: ../out/isic
+  split: ../config/splits/split_isic_cv_k5_1600-400-400.json
+  epochs: 100
+  model:
+    unet:
+      depth: 4
+      dropout: 0.05
+      in_channels: 3
+      nb_classes: 2
+      start_filters: 32
+  optimizer:
+    adam:
+      lr: 0.0001
+  seed: 20
+  valid_every_nth: 1
+  log_every_nth: 10
+  others:
+    split_k: 3
+  train_data:
+    batch_size: 32
+    dataset: ../in/datasets/isic_small/ISIC-2017_Training
+    num_workers: 1
+    shuffle: true
+    transform:
+    - rescale:
+        entries:
+        - images
+        - labels
+        lower: 0
+        upper: 1
+    - permute:
+        permutation:
+        - 2
+        - 0
+        - 1
+    - squeeze
+  valid_data:
+    batch_size: 32
+    dataset: ../in/datasets/isic_small/ISIC-2017_Training
+    num_workers: 0
+    shuffle: false
+    transform:
+    - rescale:
+        entries:
+        - images
+        - labels
+        lower: 0
+        upper: 1
+    - permute:
+        entries:
+        - images
+        - labels
+        permutation:
+        - 2
+        - 0
+        - 1
+    - squeeze
+meta:
+  type: train-config
+  version: 0

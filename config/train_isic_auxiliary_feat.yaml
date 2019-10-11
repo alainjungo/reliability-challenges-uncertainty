@@ -1,0 +1,60 @@
+config:
+  train_name: isic_auxiliary_feat
+  train_dir: ../out/isic
+  split: ''
+  epochs: 100
+  model:
+    postnet:
+      in_channels: 32
+      nb_classes: 2
+  optimizer:
+    adam:
+      lr: 0.0001
+  seed: 20
+  valid_every_nth: 1
+  log_every_nth: 10
+  others:
+    model_dir: #todo: add (e.g., ../out/isic/<timestamp>_isic_baseline/model_<timestamp>)
+    test_at: best
+  train_data:
+    batch_size: 32
+    dataset: ../in/datasets/isic_small/ISIC-2017_Training
+    num_workers: 1
+    shuffle: true
+    transform:
+    - rescale:
+        entries:
+        - images
+        - labels
+        lower: 0
+        upper: 1
+    - permute:
+        permutation:
+        - 2
+        - 0
+        - 1
+    - squeeze
+  valid_data:
+    batch_size: 32
+    dataset: ../in/datasets/isic_small/ISIC-2017_Validation
+    num_workers: 0
+    shuffle: false
+    transform:
+    - rescale:
+        entries:
+        - images
+        - labels
+        lower: 0
+        upper: 1
+    - permute:
+        entries:
+        - images
+        - labels
+        permutation:
+        - 2
+        - 0
+        - 1
+    - squeeze
+meta:
+  type: train-config
+  version: 0

@@ -1,0 +1,33 @@
+config:
+  test_name: isic_test_aleatoric
+  test_dir: ../out/predictions/isic
+  model_dir: #todo: add (e.g., ../out/isic/<timestamp>_isic_aleatoric/model_<timestamp>)
+  split: ''
+  seed: 20
+  test_at: best
+  others:
+    is_log_sigma: false
+  test_data:
+    batch_size: 32
+    dataset: ../in/datasets/isic_small/ISIC-2017_Test_v2
+    num_workers: 1
+    shuffle: false
+    transform:
+    - rescale:
+        entries:
+        - images
+        - labels
+        lower: 0
+        upper: 1
+    - permute:
+        entries:
+        - images
+        - labels
+        permutation:
+        - 2
+        - 0
+        - 1
+    - squeeze
+meta:
+  type: test-config
+  version: 0

@@ -1,0 +1,34 @@
+config:
+  test_name: isic_test_auxiliary_feat
+  test_dir: ../out/predictions/isic
+  model_dir: #todo: add (e.g., ../out/isic/<timestamp>_isic_auxiliary_feat/model_<timestamp>)
+  split: ''
+  seed: 20
+  test_at: last
+  others:
+    model_dir: #todo: add (e.g., ../out/isic/<timestamp>_isic_baseline/model_<timestamp>)
+    test_at: best
+  test_data:
+    batch_size: 32
+    dataset: ../in/datasets/isic_small/ISIC-2017_Test_v2
+    num_workers: 1
+    shuffle: false
+    transform:
+    - rescale:
+        entries:
+        - images
+        - labels
+        lower: 0
+        upper: 1
+    - permute:
+        entries:
+        - images
+        - labels
+        permutation:
+        - 2
+        - 0
+        - 1
+    - squeeze
+meta:
+  type: test-config
+  version: 0

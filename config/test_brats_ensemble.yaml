@@ -1,0 +1,57 @@
+config:
+  test_name: brats_test_ensemble
+  test_dir: ../out/predictions/brats
+  model_dir: #todo: add (e.g., ../out/brats/<timestamp>_brats_ensemble_k0/model_<timestamp>)
+  split: ../config/splits/split_brats18_100-25-160.json
+  seed: 20
+  test_at: best
+  others:
+    model_dir:
+      - #todo: add (e.g., ../out/brats/<timestamp>_brats_ensemble_k1/model_<timestamp>)
+      - #todo: add (e.g., ../out/brats/<timestamp>_brats_ensemble_k2/model_<timestamp>)
+      - #todo: add (e.g., ../out/brats/<timestamp>_brats_ensemble_k3/model_<timestamp>)
+      - #todo: add (e.g., ../out/brats/<timestamp>_brats_ensemble_k4/model_<timestamp>)
+      - #todo: add (e.g., ../out/brats/<timestamp>_brats_ensemble_k5/model_<timestamp>)
+      - #todo: add (e.g., ../out/brats/<timestamp>_brats_ensemble_k6/model_<timestamp>)
+      - #todo: add (e.g., ../out/brats/<timestamp>_brats_ensemble_k7/model_<timestamp>)
+      - #todo: add (e.g., ../out/brats/<timestamp>_brats_ensemble_k8/model_<timestamp>)
+      - #todo: add (e.g., ../out/brats/<timestamp>_brats_ensemble_k9/model_<timestamp>)
+    test_at: best
+  test_data:
+    batch_size: 32
+    dataset: ../in/datasets/brats18_test_reduced_norm.h5
+    direct_extractor:
+    - names
+    - data:
+        categories:
+        - labels
+    - files
+    - properties
+    - subject
+    direct_transform:
+    - squeeze:
+        entries:
+        - labels
+    extractor:
+    - indexing:
+        do_pickle: true
+    - shape
+    - data
+    indexing:
+      slice: {}
+    num_workers: 0
+    shuffle: false
+    transform:
+    - permute:
+        entries:
+        - images
+        permutation:
+        - 2
+        - 0
+        - 1
+    - squeeze:
+        entries:
+        - images
+meta:
+  type: test-config
+  version: 0
