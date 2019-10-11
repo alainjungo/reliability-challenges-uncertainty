@@ -2,9 +2,9 @@ import os
 import argparse
 import random
 
-import utils.filehelper as fh
+import common.utils.filehelper as fh
 import common.data.collector as collect
-import data.split as split
+import common.data.split as split
 import rechun.directories as dirs
 
 
